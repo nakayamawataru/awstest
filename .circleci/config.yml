@@ -18,7 +18,7 @@ jobs:
         environment:
           MYSQL_DATABASE: awstest_test
           MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_ROOT_PASSWORD: password
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
 
