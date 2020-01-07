@@ -14,7 +14,7 @@ jobs:
           DB_PASSWORD: password
           DB_DATABASE: awstest_test
       - image: circleci/mysql:latest
-        command: [--default-authentication-plugin=mysql_native_password] #myswl8からのpassプラグイン変更
+        command: mysqld --default-authentication-plugin=mysql_native_password #myswl8からのpassプラグイン変更
         environment:
           MYSQL_DATABASE: awstest_test
           MYSQL_ALLOW_EMPTY_PASSWORD: true
