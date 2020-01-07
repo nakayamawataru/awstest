@@ -10,11 +10,15 @@ jobs:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
           DB_HOST: 127.0.0.1
-          DB_USERNAME: 'root'
-          DB_PASSWORD: 'password'
+          DB_USERNAME: root
+          DB_PASSWORD: password
+          DB_DATABASE: awstest_test
       - image: circleci/mysql:latest
         environment:
           MYSQL_DATABASE: awstest_test
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USER: root
+          MYSQL_PASSWORD: password #この記述不要かな？
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
 
