@@ -3,7 +3,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:latest-node-browsers
         environment:
           RAILS_ENV: test
       - image: circleci/mysql:latest
