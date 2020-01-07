@@ -13,6 +13,7 @@ jobs:
           DB_USERNAME: 'root'
           DB_PASSWORD: 'password'
       - image: circleci/mysql:latest
+      　　MYSQL_DATABASE: awstest_test
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
 
