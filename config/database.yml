@@ -27,7 +27,7 @@ development:
 test:
   <<: *default
   username: <%= ENV['DB_USERNAME'] || 'root' %>
-  password: <%= ENV['DB_PASSWORD'] || 'password' %>
+  password:
   host: <%= ENV['DB_HOST'] || 'db' %>
   database: awstest_test
 
