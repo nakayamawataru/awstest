@@ -12,13 +12,14 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_USERNAME: test_user
           DB_PASSWORD: password
-          DB_DATABASE: awstest_test
       - image: circleci/mysql:latest
         command: mysqld --default-authentication-plugin=mysql_native_password #myswl8からのpassプラグイン変更
         environment:
           MYSQL_DATABASE: awstest_test
           MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_USER: test_user
+          MYSQL_ROOT_HOST: '%'
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
 
