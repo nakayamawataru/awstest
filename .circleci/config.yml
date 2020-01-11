@@ -1,22 +1,26 @@
-version: 2 # CircleCI 2.0で良い
+version: 2
 jobs:
   build:
     parallelism: 3
     docker:
-      - image: circleci/ruby:2.6-jessie-node #rubyのバージョン変更
+      - image: circleci/ruby:2.6.5-stretch-node-browsers
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
-          PGHOST: 127.0.0.1
-          PGUSER: circleci-demo-ruby
           RAILS_ENV: test
-      - image: circleci/mysql:latest # databaseをMySQLに
-        environment: #環境変数をMYSQL~へ変更、database.ymlと統一
-          MYSQL_USER: root
-          MYSQL_DB: awstest_test
-          MYSQL_PASSWORD: password
-    steps:
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: test_user
+          DB_PASSWORD: password
+      - image: circleci/mysql:latest
+        command: mysqld --default-authentication-plugin=mysql_native_password #myswl8からのpassプラグイン変更
+        environment:
+          MYSQL_DATABASE: awstest_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: NO
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_USER: test_user
+          MYSQL_ROOT_HOST: '%'
+    steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
 
       # Which version of bundler?
@@ -57,13 +61,16 @@ jobs:
           paths:
             - ~/.cache/yarn
 
-      - run:
+      - run: #DB起動まえにテストされるとエラーが出るから待つ
           name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
           name: Database setup
-          command: bin/rails db:schema:load --trace
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
+            #bin/rails db:schema:load --trace
 
       - run:
           name: Run rspec in parallel
